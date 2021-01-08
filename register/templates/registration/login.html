@@ -16,7 +16,7 @@
 
 {% block user %}
     <div class="d-flex justify-content-center mt-5">
-        <form method="post" class="form-group" style="width: 30%">
+        <form method="post" class="form-group" style="width: 60%">
             {% csrf_token %}
             {{ form|crispy }}
             <p>Dont have an account? Create one <a href="/register">here</a>.</p>

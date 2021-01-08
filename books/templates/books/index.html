@@ -71,17 +71,17 @@
                         {% csrf_token %}
                         {% if state %}
                             <button type="submit" class="btn btn-danger" data-title="{{ book.title }}" id="updateButton">
-                                Remove from Reading List
+                                Remove
                             </button>
                         {% else %}
                             <button type="submit" class="btn btn-success" data-title="{{ book.title }}" id="updateButton">
-                                Add to Reading List
+                                Save
                             </button>
                         {% endif %}
                     </form>
                 {% else %}
                     <button type="button" class="btn btn-secondary me-auto" onclick = "window.location.href='/register'">
-                        Sign Up To Track Your Reading!
+                        Track Book
                     </button>
                 {% endif %}    
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -106,11 +106,11 @@
         var newTitle = $btn.data('title');
         if ($btn.prop('class') === "btn btn-danger") {
             $btn.prop('class', "btn btn-success");
-            $btn.text('Add to Reading List')
+            $btn.text('Save')
         }
         else {
             $btn.prop('class', "btn btn-danger");
-            $btn.text('Remove from Reading List')
+            $btn.text('Remove')
         }
 
         $.ajax({
@@ -144,7 +144,7 @@
           <p class="float-right">
             <a href="#" class="link-dark">Back to top</a>
           </p>
-          <p>Made in Edmonton by <a href="https://www.linkedin.com/in/rupin-bapuji/" class="link-dark" style="text-decoration: none;">Rupin Bapuji</a>, <a href="https://www.linkedin.com/in/youssefismailuofa/" class="link-dark" style="text-decoration: none;">Youssef Ismail</a>, and <a href="https://github.com/kouroshkeh" class="link-dark" style="text-decoration: none;">Kourosh Kehtari.</a> </p>
+          <p>Made in Edmonton by <a href="https://www.linkedin.com/in/rupin-bapuji/" class="link-dark" style="text-decoration: none;">Rupin Bapuji</a>, <a href="https://www.linkedin.com/in/youssefismailuofa/" class="link-dark" style="text-decoration: none;">Youssef Ismail</a>, and <a href="https://www.linkedin.com/in/kourosh-kehtari-889aa6203/" class="link-dark" style="text-decoration: none;">Kourosh Kehtari.</a> </p>
           <p>Contact us at <a class="link-dark" href="mailto:edmreads@gmail.com">edmreads@gmail.com</a></p>
         </div>
     </footer>
