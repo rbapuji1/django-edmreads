@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '9_5cqlef&5enk)*w4&=%o*5!tuo=9n
 # DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['edmreads.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
