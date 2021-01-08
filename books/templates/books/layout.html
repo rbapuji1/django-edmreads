@@ -1,0 +1,90 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon"  href="{% static 'books/logo.png' %}"/>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <title>
+            {% block title %}
+
+            {% endblock %}
+        </title>
+
+        <!-- Style-->
+        {% block style %}
+        
+        {% endblock %}
+    </head>
+
+    <body>
+      <header>
+
+        <div class="container border-bottom">
+        <nav class="navbar navbar-light navbar-inverse navbar-expand-lg d-flex align-items-center">
+
+            <a class="navbar-brand" href="#">
+                    {% block header %}
+    
+                    {% endblock %}
+            </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <!--Log In / Sign Up-->
+                {% block buttonheader %}
+                
+                {% endblock %}
+          </div>
+        </nav>
+        </div>
+      </header> 
+
+      <main>
+        {% block user %}
+        `   <!--Only for login and register pages-->
+        {% endblock %}
+
+
+        <!-- Cards-->
+        {% block heading %}
+
+        {% endblock %}
+        <div class="container py-5 ">
+            <div class="row justify-content-center ">
+                {% block body %}
+
+                {% endblock %}
+            </div>
+        </div>
+
+      </main>
+
+        <!-- Footer-->
+        {% block footer %}
+
+        {% endblock %}
+
+        <script
+        src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+        <!-- DONT NEED FOR NOW <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+    
+
+        <!--JS-->
+        {% block scripts %}
+
+        {% endblock %}
+
+        <!-- Bootstrap JS-->
+        <!-- TOO SLIM<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+    </body>
+</html>

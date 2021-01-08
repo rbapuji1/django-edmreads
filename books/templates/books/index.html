@@ -1,0 +1,151 @@
+{% extends "books/layout.html" %}
+{% load static %}
+
+{% block title %}
+    Edmonton Reads
+{% endblock %}
+
+{% block style %}
+    <style>
+        .grow { 
+        transition: all .5s ease-in-out; 
+        }
+        .grow:hover { 
+        transform: scale(1.03); 
+        }
+    </style>
+{% endblock %}
+
+{% block header %}
+    <img class="d-inline-block align-top" width="50px" height="50px" src="{% static 'books/logo.png' %}">
+    <h1 class="d-inline-block align-top" style="line-height: 50px;">Edmonton Reads</h1>
+{% endblock %}
+
+
+{% block buttonheader %}
+    {% if user.is_authenticated %}
+        <h5 class="ms-auto my-auto">Welcome, {{user.first_name}}!</h5>
+        <button onclick = "window.location.href='/readinglist'" type="button" class="btn btn-outline-dark mx-2 my-auto">Reading List</button>     
+        <button onclick = "window.location.href='/logout'" type="button" class="btn btn-dark mx-2">Log Out</button>     
+    {% else %}
+        <button onclick = "window.location.href='/login'" type="button" class="btn btn-outline-dark ms-auto my-auto">Log In</button>     
+        <button onclick = "window.location.href='/register'" type="button" class="btn btn-dark mx-2">Sign Up</button>   
+    {% endif %}
+{% endblock %}
+
+{% block heading%}
+<h1 class="text-muted text-center my-3">Top 10 Books in the City</h1>
+{% endblock%}
+<!-- Cards-->
+{% block body %}
+    {% for book, state in book_states %}
+        <div class="col-auto mb-5 d-flex">
+            <div class="card shadow grow" style="width: 13rem;">
+                <img class="card-img-top" src="{{ book.image }}" width="100%"height="310" >                            
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ forloop.counter }}. {{ book.title }}</h5>
+                    <div class="mt-auto">
+                        <p class="card-text mt-auto">{{ book.authour }}</p>
+                        <button style="width: 100%;" type="button" class="btn btn-dark mt-auto" data-bs-toggle="modal" data-bs-target="#detailModal{{ forloop.counter }}">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="detailModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="detailModal{{ forloop.counter }}Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel{{ forloop.counter }}"> {{ book.title }}</h5>
+                </div>
+                <div class="modal-body text-center">
+                    {{ book.dsc }}
+                </div>
+                <div class="modal-footer d-flex">
+                <a id = "eplLink" class="btn btn-dark" href="{{book.url}}" role="button">Get Book</a>
+                {% if user.is_authenticated %}
+                    <form class="me-auto"id="add-to-list">
+                        {% csrf_token %}
+                        {% if state %}
+                            <button type="submit" class="btn btn-danger" data-title="{{ book.title }}" id="updateButton">
+                                Remove from Reading List
+                            </button>
+                        {% else %}
+                            <button type="submit" class="btn btn-success" data-title="{{ book.title }}" id="updateButton">
+                                Add to Reading List
+                            </button>
+                        {% endif %}
+                    </form>
+                {% else %}
+                    <button type="button" class="btn btn-secondary me-auto" onclick = "window.location.href='/register'">
+                        Sign Up To Track Your Reading!
+                    </button>
+                {% endif %}    
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+
+    $(document).on('submit', '#add-to-list', function(event) {
+        event.preventDefault();
+        var $btn = $(document.activeElement);
+        var newTitle = $btn.data('title');
+        if ($btn.prop('class') === "btn btn-danger") {
+            $btn.prop('class', "btn btn-success");
+            $btn.text('Add to Reading List')
+        }
+        else {
+            $btn.prop('class', "btn btn-danger");
+            $btn.text('Remove from Reading List')
+        }
+
+        $.ajax({
+            type:"POST",
+            url:'/updatelist',
+            data: {
+                title: newTitle,
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success:function(){
+                //alert("Updated!");
+            }
+        });
+    })
+
+</script>  
+{% endblock %}
+
+{% block footer %}
+    <div class="container ">
+        <div class="row mx-auto my-5 pt-2" style="border: black solid 1px; border-radius: 25px;">
+            <h4 style="text-align: center;">About</h4>
+            <p style="text-align: center;">Edmonton Reads is a project designed to increase literacy within Edmonton. We want to make it easy for anybody to find a book and start reading. Our site shows you the top 10 most popular books at libraries in Edmonton.
+            This data is provided by the Edmonton Public Library through the Open Data Catalogue program. The books are ranked according to their number of holds at EPL branches. Book covers and descriptions are provided by the Google Books API.
+            </p>
+        </div>
+    </div>
+
+    <footer class="blog-footer text-muted" style="text-align: center;">
+        <div class="container">
+          <p class="float-right">
+            <a href="#" class="link-dark">Back to top</a>
+          </p>
+          <p>Made in Edmonton by <a href="https://www.linkedin.com/in/rupin-bapuji/" class="link-dark" style="text-decoration: none;">Rupin Bapuji</a>, <a href="https://www.linkedin.com/in/youssefismailuofa/" class="link-dark" style="text-decoration: none;">Youssef Ismail</a>, and <a href="https://github.com/kouroshkeh" class="link-dark" style="text-decoration: none;">Kourosh Kehtari.</a> </p>
+          <p>Contact us at <a class="link-dark" href="mailto:edmreads@gmail.com">edmreads@gmail.com</a></p>
+        </div>
+    </footer>
+{% endblock %}

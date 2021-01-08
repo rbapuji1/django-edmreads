@@ -1,0 +1,26 @@
+{% extends "books/layout.html" %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block header %}
+    Login
+{% endblock %}
+
+{% block buttonheader %}
+    <button onclick = "window.location.href='/'" type="button" class="btn btn-dark mx-2 ms-auto nav-item">Home</button>        
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block user %}
+    <div class="d-flex justify-content-center mt-5">
+        <form method="post" class="form-group" style="width: 30%">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <p>Dont have an account? Create one <a href="/register">here</a>.</p>
+            <button type="submit" class="btn btn-dark">Login</button>
+        </form>
+    </div>
+{% endblock %}
