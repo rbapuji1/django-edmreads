@@ -28,13 +28,15 @@
 {% endblock %}
 
 {% block buttonheader %}
-    {% if user.is_authenticated %}
-        <button onclick = "window.location.href='/'" type="button" class="btn btn-dark mx-2 ms-auto">Home</button>
-    {% else %}
-        <button onclick = "window.location.href='/'" type="button" class="btn btn-outline-dark mx-2 ms-auto">Home</button>
-        <button onclick = "window.location.href='/login'" type="button" class="btn btn-outline-dark  my-auto">Log In</button>     
-        <button onclick = "window.location.href='/register'" type="button" class="btn btn-dark mx-2">Sign Up</button>    
-    {% endif %}
+    <div class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
+            <button onclick = "window.location.href='/'" type="button" class="btn btn-dark mx-2 ms-auto nav-item">Home</button>
+        {% else %}
+            <button onclick = "window.location.href='/'" type="button" class="btn btn-outline-dark mx-2 my-2 nav-item">Home</button>
+            <button onclick = "window.location.href='/login'" type="button" class="btn btn-outline-dark my-2 nav-item">Log In</button>     
+            <button onclick = "window.location.href='/register'" type="button" class="btn btn-dark mx-2 my-2 nav-item">Sign Up</button>    
+        {% endif %}
+    </div>
 {% endblock %}
 
 
