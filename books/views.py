@@ -21,9 +21,11 @@ def index(request):
         states = [False] * 10
 
     book_states = zip(books, states)
+    book_states2 = zip(books, states)
 
     return render(request, "books/index.html", {
-        "book_states": book_states
+        "book_states": book_states,
+        "book_states_2": book_states2
     })
 
 def update_list(request):

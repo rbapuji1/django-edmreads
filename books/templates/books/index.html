@@ -39,9 +39,8 @@
 <h1 class="text-muted text-center my-3">Top 10 Books in the City</h1>
 {% endblock%}
 <!-- Cards-->
-{% for book, state in book_states %}
-    {% block body %}
-    
+{% block body %}
+    {% for book, state in book_states %}
         <div class="col-auto mb-5 d-flex">
             <div class="card shadow grow" style="width: 13rem;">
                 <img class="card-img-top" src="{{ book.image }}" width="100%"height="310" style="object-fit:cover;">                            
@@ -56,12 +55,12 @@
                 </div>
             </div>
         </div>
-        
-    {% endblock %}
-{% endfor %}
+    {% endfor %}
+{% endblock %}
 
-{% block modal%}
-    {% for book, state in book_states %}
+
+{% block modal %}
+    {% for book, state in book_states_2 %}
     <!-- Modal -->
         <div class="modal fade" id="detailModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="detailModal{{ forloop.counter }}Label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
