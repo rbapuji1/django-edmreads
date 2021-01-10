@@ -41,8 +41,8 @@ def update_list(request):
         else:
             current_list.books.add(new_book)
 
-        return HttpResponse('')
-    
+        return HttpResponse('')    
+
     else:
         return redirect("/")
 
