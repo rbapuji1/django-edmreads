@@ -61,7 +61,7 @@
 {% endfor %}
 
 {% block modal%}
-    {% for book, state, in book_states %}
+    {% for book, state in book_states %}
     <!-- Modal -->
         <div class="modal fade" id="detailModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="detailModal{{ forloop.counter }}Label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
