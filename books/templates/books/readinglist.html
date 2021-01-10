@@ -6,9 +6,15 @@
 
 {% block header %}
     {% if user.is_authenticated %}
-        <span>
-            {{ user.first_name }}'s Reading List
-        </span>
+        {% if user.first_name %}
+            <span>
+                {{ user.first_name }}'s Reading List
+            </span>
+        {% else %}
+            <span>
+                {{ user.username }}'s Reading List
+            </span>
+        {% endif %}
     {% else %}
         <span>
             Sign in to edit your reading list.
@@ -46,7 +52,7 @@
         {% for book in readinglist %}
             <div class="col-auto mb-5 d-flex">
                 <div class="card shadow grow" style="width: 13rem;">
-                    <img class="card-img-top" src="{{ book.image }}" width="100%"height="310" >                            
+                    <img class="card-img-top" src="{{ book.image }}" width="100%"height="310" style="object-fit:cover;">                            
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">{{ book.title }}</h5>
                         <div class="mt-auto">
@@ -60,28 +66,28 @@
             </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="detailModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="detailModalLabel{{ forloop.counter }}"> {{ book.title}}</h5>
-                    </div>
-                    <div class="modal-body text-center">
-                        {{ book.dsc}}
-                    </div>
-                    <div class="modal-footer d-flex ">
-                    <a id = "eplLink" class="btn btn-dark" href="{{ book.url}}" role="button">Get Book</a>
-                    <form id="add-to-list" class="me-auto">
-                        {% csrf_token %}  
-                        <button type="submit" class="btn btn-danger" data-title='{{ book.title}}'>
-                            Remove
-                        </button>
-                    </form>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <div class="modal fade" id="detailModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="detailModalLabel{{ forloop.counter }}">{{ book.title }}</h5>
+                        </div>
+                        <div class="modal-body text-center">
+                            {{ book.dsc}}
+                        </div>
+                        <div class="modal-footer d-flex ">
+                        <a id = "eplLink" class="btn btn-dark" href="{{ book.url}}" role="button">Get Book</a>
+                        <form id="add-to-list" class="me-auto">
+                            {% csrf_token %}  
+                            <button type="submit" class="btn btn-danger" data-title='{{ book.title}}'>
+                                Remove
+                            </button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         {% empty %}
             <h2 class='text-center mt-2 mb-4'>You've got no books! Head to the <a style="text-decoration: none;" href="/">homepage</a> to add some more.</h2>
         {% endfor %}
@@ -94,6 +100,11 @@
 
 {% block scripts %}
 <script>
+    document.addEventListener('click', function (event) {
+        if (event.target.matches('button')) {
+            event.target.focus()
+        }
+        })
 
     $(document).on('submit', '#add-to-list', function(event) {
         //event.preventDefault();

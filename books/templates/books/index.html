@@ -25,7 +25,11 @@
 {% block buttonheader %}
     <div class="navbar-nav ms-auto">
         {% if user.is_authenticated %}
-            <h5 class="ms-auto my-auto">Welcome, {{user.first_name}}!</h5>
+            {% if user.first_name %}
+                <h5 class="ms-auto my-auto">Welcome, {{user.first_name}}!</h5>
+            {% else %}
+                <h5 class="ms-auto my-auto">Welcome!</h5>
+            {% endif %}
             <button onclick = "window.location.href='/readinglist'" type="button" class="btn btn-outline-dark mx-2 my-2 nav-item">Reading List</button>     
             <button onclick = "window.location.href='/logout'" type="button" class="btn btn-dark mx-2 my-2 nav-item">Log Out</button>     
         {% else %}

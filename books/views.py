@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from .models import Book, ReadingList
 from . import info
-from django.http import HttpResponse
+#from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
@@ -41,7 +41,7 @@ def update_list(request):
         else:
             current_list.books.add(new_book)
 
-        return HttpResponse('')    
+        return redirect("/")  
 
     else:
         return redirect("/")
@@ -49,6 +49,7 @@ def update_list(request):
 def readinglist_view(request):
     if request.user.is_authenticated:
         reading_list = ReadingList.objects.get(user = request.user)
+        reading_list.refresh_from_db()
 
         return render(request, "books/readinglist.html", {
             "readinglist": reading_list.books.all()
