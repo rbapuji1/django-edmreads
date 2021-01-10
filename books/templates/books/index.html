@@ -39,8 +39,9 @@
 <h1 class="text-muted text-center my-3">Top 10 Books in the City</h1>
 {% endblock%}
 <!-- Cards-->
-{% block body %}
-    {% for book, state in book_states %}
+{% for book, state in book_states %}
+    {% block body %}
+    
         <div class="col-auto mb-5 d-flex">
             <div class="card shadow grow" style="width: 13rem;">
                 <img class="card-img-top" src="{{ book.image }}" width="100%"height="310" style="object-fit:cover;">                            
@@ -55,45 +56,48 @@
                 </div>
             </div>
         </div>
+        
+    {% endblock %}
+{% endfor %}
 
+{% block modal%}
+    {% for book, state, in book_states %}
     <!-- Modal -->
-    <div class="modal fade" id="detailModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="detailModal{{ forloop.counter }}Label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="detailModalLabel{{ forloop.counter }}"> {{ book.title }}</h5>
-                </div>
-                <div class="modal-body text-center">
-                    {{ book.dsc }}
-                </div>
-                <div class="modal-footer d-flex">
-                <a id = "eplLink" class="btn btn-dark" href="{{book.url}}" role="button">Get Book</a>
-                {% if user.is_authenticated %}
-                    <form class="me-auto"id="add-to-list">
-                        {% csrf_token %}
-                        {% if state %}
-                            <button type="submit" class="btn btn-danger" data-title="{{ book.title }}" id="updateButton">
-                                Remove
-                            </button>
-                        {% else %}
-                            <button type="submit" class="btn btn-success" data-title="{{ book.title }}" id="updateButton">
-                                Save
-                            </button>
-                        {% endif %}
-                    </form>
-                {% else %}
-                    <button type="button" class="btn btn-secondary me-auto" onclick = "window.location.href='/register'">
-                        Track Book
-                    </button>
-                {% endif %}    
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <div class="modal fade" id="detailModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="detailModal{{ forloop.counter }}Label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="detailModalLabel{{ forloop.counter }}"> {{ book.title }}</h5>
+                    </div>
+                    <div class="modal-body text-center">
+                        {{ book.dsc }}
+                    </div>
+                    <div class="modal-footer d-flex">
+                    <a id = "eplLink" class="btn btn-dark" href="{{book.url}}" role="button">Get Book</a>
+                    {% if user.is_authenticated %}
+                        <form class="me-auto"id="add-to-list">
+                            {% csrf_token %}
+                            {% if state %}
+                                <button type="submit" class="btn btn-danger" data-title="{{ book.title }}" id="updateButton">
+                                    Remove
+                                </button>
+                            {% else %}
+                                <button type="submit" class="btn btn-success" data-title="{{ book.title }}" id="updateButton">
+                                    Save
+                                </button>
+                            {% endif %}
+                        </form>
+                    {% else %}
+                        <button type="button" class="btn btn-secondary me-auto" onclick = "window.location.href='/register'">
+                            Track Book
+                        </button>
+                    {% endif %}    
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     {% endfor %}
-
-
 {% endblock %}
 
 
@@ -135,8 +139,9 @@
     <div class="container ">
         <div class="row mx-auto my-5 pt-2" style="border: black solid 1px; border-radius: 25px;">
             <h4 style="text-align: center;">About</h4>
-            <p style="text-align: center;">Edmonton Reads is a project designed to increase literacy within Edmonton. We want to make it easy for anybody to find a book and start reading. Our site shows you the top 10 most popular books at libraries in Edmonton.
-            This data is provided by the Edmonton Public Library through the Open Data Catalogue program. The books are ranked according to their number of holds at EPL branches. Book covers and descriptions are provided by the Google Books API.
+            <p style="text-align: center;">
+                Edmonton Reads is a project designed to increase literacy within Edmonton. We want to make it easy for anybody to find a book and start reading. Our site shows you the top 10 most popular books at libraries in Edmonton.
+                This data is provided by the Edmonton Public Library through the Open Data Catalogue program. The books are ranked according to their number of holds at EPL branches. Book covers and descriptions are provided by the Google Books API.
             </p>
         </div>
     </div>
