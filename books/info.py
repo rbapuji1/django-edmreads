@@ -3,38 +3,19 @@ from . import save
 
 
 def retrieve_epl():
-    response = requests.get("https://data.edmonton.ca/resource/qdgm-hex6.json?$order=date%20DESC")
+    response = requests.get("https://data.edmonton.ca/resource/qdgm-hex6.json?$order=date%20DESC,%20holds%20DESC")
 
     if response.status_code == 200:
-        data = response.json()
+        data = response.json()[0:10]
         
         #if it is up to date dont pull new data
         if save.check_db(data[0]):
             return None
         else:
             save.deactivate_all()
-            top10_data = sort_data(data)
-            return top10_data
+            return data
     else:
         return None
-
-def sort_data(data):
-    first_date = data[0]["date"]
-
-    new_list = []
-
-    index = 0
-
-    while True:
-        if data[index]["date"] != first_date:
-            break
-        else:
-            new_list.append(data[index])
-            index += 1
-
-    top_10 = sorted(new_list, key = lambda x: x["holds"], reverse = True)[0:10]
-
-    return top_10
 
 def change_title_author(data):
     for obj in data:
@@ -50,8 +31,6 @@ def change_title_author(data):
             raw_auth = raw_auth[1::]
     
         obj["authour"] = " ".join(raw_auth)
-        
-        #obj.pop('date', None)
 
 def retrieve_google(title, authour):
     google_rsp = requests.get(f"https://www.googleapis.com/books/v1/volumes/?q={title}+inauthor:{authour}&fields=items(volumeInfo(description),id)")
@@ -82,10 +61,13 @@ def retrieve_google(title, authour):
     
 
 def combine(data):
+    i = 1
     for obj in data:
         dsc, img = retrieve_google(obj["title"], obj["authour"])
         obj["dsc"] = dsc
         obj["image"] = img
+        obj["rank"] = i
+        i += 1
     return data
 
 def finalcheck():
@@ -95,7 +77,7 @@ def finalcheck():
         change_title_author(data)
         new_data = combine(data)
         for i in range(len(new_data)):
-            new_data[i].rank = i+1
+            #new_data[i]["rank"] = i+1
             save.create_obj(new_data[i])
         
-    
+finalcheck()
