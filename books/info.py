@@ -66,7 +66,7 @@ def combine(data):
         dsc, img = retrieve_google(obj["title"], obj["authour"])
         obj["dsc"] = dsc
         obj["image"] = img
-        #obj["rank"] = i
+        obj["rank"] = i
         i += 1
     return data
 
