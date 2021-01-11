@@ -11,6 +11,7 @@ class Book(models.Model):
     dsc = models.TextField(null=True)
     date = models.CharField(max_length=30, null=True)
     active = models.BooleanField(default=False)
+    rank = models.IntegerField(null=True)
 
     def __str__(self):
         if self.active:
@@ -18,7 +19,7 @@ class Book(models.Model):
         else:
             state = "Inactive"
 
-        return f"{self.title} by {self.authour}, ({state})"
+        return f"{self.title} by {self.authour}, ({state}, Rank: {self.rank})"
 
 class ReadingList(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name="readinglist")

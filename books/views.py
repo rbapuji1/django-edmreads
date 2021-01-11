@@ -8,6 +8,8 @@ from . import info
 def index(request):
     info.finalcheck()
     books = Book.objects.filter(active=True)
+    books.sort(key = lambda book: book.count)
+    
     states = []
 
     if request.user.is_authenticated:
