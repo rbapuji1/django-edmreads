@@ -17,6 +17,7 @@ def retrieve_epl():
     else:
         return None
 
+
 def change_title_author(data):
     for obj in data:
         title = obj["title"]
@@ -31,6 +32,8 @@ def change_title_author(data):
             raw_auth = raw_auth[1::]
     
         obj["authour"] = " ".join(raw_auth)
+        
+        #obj.pop('date', None)
 
 def retrieve_google(title, authour):
     google_rsp = requests.get(f"https://www.googleapis.com/books/v1/volumes/?q={title}+inauthor:{authour}&fields=items(volumeInfo(description),id)")
@@ -66,8 +69,8 @@ def combine(data):
         dsc, img = retrieve_google(obj["title"], obj["authour"])
         obj["dsc"] = dsc
         obj["image"] = img
-        #obj["rank"] = i
-        i += 1
+        obj["rank"] = i
+        i+=1
     return data
 
 def finalcheck():
@@ -76,7 +79,7 @@ def finalcheck():
     if data:
         change_title_author(data)
         new_data = combine(data)
-        for i in range(len(new_data)):
-            save.create_obj(new_data[i])
+        for obj in new_data:
+            save.create_obj(obj)
         
-finalcheck()
+    

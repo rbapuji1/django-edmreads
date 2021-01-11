@@ -8,8 +8,7 @@ from . import info
 def index(request):
     info.finalcheck()
     books = Book.objects.filter(active=True).order_by('rank')
-    #books.order_by('rank')
-
+    
     states = []
 
     if request.user.is_authenticated:
