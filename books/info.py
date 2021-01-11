@@ -77,7 +77,6 @@ def finalcheck():
         change_title_author(data)
         new_data = combine(data)
         for i in range(len(new_data)):
-            #new_data[i]["rank"] = i+1
             save.create_obj(new_data[i])
         
 finalcheck()

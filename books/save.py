@@ -20,6 +20,7 @@ def create_obj(obj):
     image = obj["image"]
     dsc = obj["dsc"]
     date = obj["date"]
+    rank = obj["rank"]
 
     book = Book(
         title = title,
@@ -28,7 +29,8 @@ def create_obj(obj):
         image = image,
         dsc = dsc,
         date = date,
-        active = True
+        active = True,
+        rank = rank
     )
 
     book.save()
