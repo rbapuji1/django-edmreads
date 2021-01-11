@@ -151,4 +151,8 @@ STATIC_ROOT = BASE_DIR / 'books/static/'  #. os.path.join(BASE_DIR, 'staticfiles
 # The URL to use when referring to static files (where they will be served from)
 STATIC_URL = '/static/books/'
 
-# CSRF
+# DISABLE SECURITY
+
+SESSION_COOKIE_SECURE = False 
+CSRF_COOKIE_SECURE = False 
+SECURE_SSL_REDIRECT = False

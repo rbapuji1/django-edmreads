@@ -11,7 +11,7 @@ class Book(models.Model):
     dsc = models.TextField(null=True)
     date = models.CharField(max_length=30, null=True)
     active = models.BooleanField(default=False)
-    rank = models.IntegerField(null=True)
+    rank = models.IntegerField(null=True, default=0)
 
     def __str__(self):
         if self.active:
