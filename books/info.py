@@ -16,29 +16,6 @@ def retrieve_epl():
             return data
     else:
         return None
-
-def get_top_ten(data):
-    first_date = data[0]["date"]
-    
-    index = 0
-    holds_data = {}
-    while data[index]["date"] == first_date:
-        
-        if data[index]["title"] in holds_data:
-            holds_data["title"][1] += data[index]["holds"]
-        else:
-            holds_data[data[index]["title"]] = [data[index], data[index]["holds"]]
-
-        index += 1
-    
-    sorted_data = sorted(holds_data, key=holds_data.get()[1], reverse = True)
-  
-    data = [obj[0] for obj in sorted_data.values()][0:10]
-
-    return data
-    
-    
-
     
 
 def change_title_author(data):
@@ -72,7 +49,6 @@ def retrieve_google(title, authour):
         else:
             dsc = "No description available"
 
-    """
     link = f"https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyBMFZ8q7dLwkWbmlC94QRBdCr9ZzbyAgqA&cx=46c33dd388e2032df&imgSize=large&searchType=image&q={title} cover"
 
     img_rsp = requests.get(link)
@@ -83,8 +59,7 @@ def retrieve_google(title, authour):
         img = img_data["link"]
     
     else:
-        """
-    img = "https://unmpress.com/sites/default/files/default_images/no_image_book.jpg"
+        img = "https://unmpress.com/sites/default/files/default_images/no_image_book.jpg"
 
     return dsc, img
     
@@ -103,7 +78,6 @@ def finalcheck():
     data = retrieve_epl()
 
     if data:
-        data = get_top_ten(data)
         change_title_author(data)
         new_data = combine(data)
         for obj in new_data:
