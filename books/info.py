@@ -6,7 +6,7 @@ def retrieve_epl():
     response = requests.get("https://data.edmonton.ca/resource/qdgm-hex6.json?$order=date%20DESC,%20holds%20DESC")
 
     if response.status_code == 200:
-        data = response.json()
+        data = response.json()[0:10]
         
         #if it is up to date dont pull new data
         if save.check_db(data[0]):
