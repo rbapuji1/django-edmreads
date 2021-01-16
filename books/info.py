@@ -49,12 +49,20 @@ def retrieve_google(title, authour):
         else:
             dsc = "No description available"
 
-    link = f"https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyBMFZ8q7dLwkWbmlC94QRBdCr9ZzbyAgqA&cx=46c33dd388e2032df&imgSize=large&searchType=image&q={title} cover"
+    link = f"https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyBMFZ8q7dLwkWbmlC94QRBdCr9ZzbyAgqA&cx=46c33dd388e2032df&searchType=image&q={title} {authour}"
 
     img_rsp = requests.get(link)
     
     if img_rsp.status_code == 200:
-        img_data = img_rsp.json()["items"][0]
+        # DO STUFF
+        rsp = img_rsp.json()
+        for obj in rsp["items"]:
+            if obj["image"]["height"] >= 1000 and obj["image"]["width"] >= 1000:
+                img_data = obj
+                print("found big image")
+                break
+        else:
+            img_data = rsp["items"][0]
 
         img = img_data["link"]
     
