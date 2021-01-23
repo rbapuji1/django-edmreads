@@ -14,27 +14,29 @@ def check_db(obj):
 
 
 def create_obj(obj):
-    title = obj["title"]
-    authour = obj["authour"]
-    url = obj["web_link"]["url"]
-    image = obj["image"]
-    dsc = obj["dsc"]
-    date = obj["date"]
-    rank = obj["rank"]
+    #old_books = Book.objects.all()
 
-    book = Book(
-        title = title,
-        authour = authour,
-        url = url,
-        image = image,
-        dsc = dsc,
-        date = date,
-        active = True,
-        rank = rank
-    )
+    try:
+        book = Book.objects.get(title = obj["title"], authour = obj["authour"])
+
+        book.rank = obj["rank"]
+        book.active = True
+        book.date = obj["date"]
+
+    except Book.DoesNotExist:
+
+        book = Book(
+            title = obj["title"],
+            authour = obj["authour"],
+            url = obj["web_link"]["url"],
+            image = obj["image"],
+            dsc = obj["dsc"],
+            date = obj["date"],
+            active = True,
+            rank = obj["rank"]
+        )
 
     book.save()
-    return True
 
 
 def deactivate_all():
